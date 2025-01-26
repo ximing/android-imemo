@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="Theme.App.Dialog.FullScreen" parent="Theme.MaterialComponents.DayNight.Dialog">
+        <item name="android:windowIsFloating">false</item>
+        <item name="android:windowBackground">@color/dark_background</item>
+        <item name="android:windowAnimationStyle">@style/Animation.AppCompat.Dialog</item>
+        <item name="android:windowSoftInputMode">adjustResize</item>
+    </style>
+</resources> 
