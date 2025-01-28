@@ -58,14 +58,14 @@ public interface ApiService {
         @Body SetMemoResourcesRequest request
     );
 
-    @PATCH("api/v1/memos/{id}")
+    @PATCH("/api/v1/{name}")
     Call<Memo> updateMemo(
-        @Path("id") String memoId,
+        @Path(value = "name", encoded = true) String name,
         @Body UpdateMemoRequest request
     );
 
-    @DELETE("api/v1/memos/{id}")
-    Call<Void> deleteMemo(@Path("id") String memoId);
+    @DELETE("/api/v1/{name}")
+    Call<Void> deleteMemo(@Path(value = "name", encoded = true) String name);
 
     @DELETE("api/v1/memos/{id}/tags/{tag}")
     Call<Void> deleteMemoTag(

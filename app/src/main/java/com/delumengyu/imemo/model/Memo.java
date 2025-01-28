@@ -6,8 +6,17 @@ import java.util.List;
 
 public class Memo {
     @SerializedName("uid")
-    private String identifier;
+    private String uid;
+
+    @SerializedName("name")
+    private String name;
+
+    @SerializedName("content")
     private String content;
+
+    @SerializedName("rowStatus")
+    private String rowStatus;
+
     @SerializedName("createTime")
     private Date date;
     private boolean pinned;
@@ -18,8 +27,12 @@ public class Memo {
     @SerializedName("creator")
     private String creatorId;
 
-    public String getIdentifier() {
-        return identifier;
+    public String getUId() {
+        return uid;
+    }
+
+    public String getName(){
+        return name;
     }
 
     public String getContent() {
@@ -57,4 +70,4 @@ public class Memo {
             return tags;
         }
     }
-} 
+}

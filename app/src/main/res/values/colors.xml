@@ -8,10 +8,24 @@
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
     <color name="gray">#FF808080</color>
-    <color name="accent">#FF4CAF50</color>
-    
+
     <!-- Dark theme colors -->
     <color name="dark_background">#FF121212</color>
     <color name="dark_surface">#FF1E1E1E</color>
     <color name="dark_card">#FF242424</color>
+    
+    <color name="primary">#212121</color>
+    <color name="primary_variant">#000000</color>
+    <color name="on_primary">#FFFFFF</color>
+    
+    <color name="background">#F5F5F5</color>
+    <color name="surface">#FFFFFF</color>
+    <color name="on_surface">#212121</color>
+    
+    <color name="accent">#212121</color>
+    <color name="accent_variant">#424242</color>
+    
+    <color name="divider">#E0E0E0</color>
+    <color name="text_primary">#212121</color>
+    <color name="text_secondary">#757575</color>
 </resources>
