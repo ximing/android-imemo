@@ -6,7 +6,10 @@ public class UpdateMemoRequest {
     private String rowStatus;
     private Boolean pinned;
 
-    public UpdateMemoRequest() {}
+    public UpdateMemoRequest(String content, String visibility) {
+        this.content = content;
+        this.visibility = visibility;
+    }
 
     public void setContent(String content) {
         this.content = content;

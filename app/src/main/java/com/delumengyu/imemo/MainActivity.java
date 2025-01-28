@@ -38,6 +38,8 @@ import android.view.KeyEvent;
 import android.app.AlertDialog;
 import android.util.Log;
 
+import com.delumengyu.imemo.model.UpdateMemoRequest;
+
 public class MainActivity extends AppCompatActivity {
     private ActivityMainBinding binding;
     private MemoAdapter memoAdapter;
@@ -373,8 +375,67 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void editMemo(Memo memo) {
-        // TODO: 实现编辑功能
-        Toast.makeText(this, "编辑功能开发中", Toast.LENGTH_SHORT).show();
+        // 显示输入面板
+        binding.inputContainer.setVisibility(View.GONE);
+        binding.expandedInputPanel.setVisibility(View.VISIBLE);
+        
+        // 设置现有内容
+        binding.expandedInput.setText(memo.getContent());
+        binding.expandedInput.requestFocus();
+        binding.expandedInput.setSelection(memo.getContent().length()); // 光标移到末尾
+        
+        // 显示键盘
+        InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+        imm.showSoftInput(binding.expandedInput, InputMethodManager.SHOW_IMPLICIT);
+        
+        // 修改发送按钮点击事件
+        binding.expandedInputPanel.findViewById(R.id.sendButton).setOnClickListener(v -> {
+            String content = binding.expandedInput.getText().toString();
+            if (!content.isEmpty()) {
+                UpdateMemoRequest request = new UpdateMemoRequest(content, memo.getVisibility().name());
+                request.setPinned(memo.isPinned());  // 保持原有的置顶状态
+                updateMemo(memo.getName(), request);
+            }
+        });
+        
+        // 设置返回键处理
+        binding.expandedInput.setOnKeyListener((v, keyCode, event) -> {
+            if (keyCode == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_DOWN) {
+                hideExpandedPanel();
+                return true;
+            }
+            return false;
+        });
+    }
+
+    private void updateMemo(String name, UpdateMemoRequest request) {
+        ApiClient.getInstance()
+                .getApiService()
+                .updateMemo(name, request)
+                .enqueue(new Callback<Memo>() {
+                    @Override
+                    public void onResponse(Call<Memo> call, Response<Memo> response) {
+                        if (response.isSuccessful() && response.body() != null) {
+                            hideExpandedPanel();
+                            refreshMemos();
+                            Toast.makeText(MainActivity.this, "更新成功", Toast.LENGTH_SHORT).show();
+                        } else {
+                            Toast.makeText(MainActivity.this, "更新失败", Toast.LENGTH_SHORT).show();
+                            Log.e("MainActivity", "Update failed: " + response.code());
+                            try {
+                                Log.e("MainActivity", "Error body: " + response.errorBody().string());
+                            } catch (Exception e) {
+                                Log.e("MainActivity", "Error reading error body", e);
+                            }
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<Memo> call, Throwable t) {
+                        Toast.makeText(MainActivity.this, "网络错误", Toast.LENGTH_SHORT).show();
+                        Log.e("MainActivity", "Network error when updating memo", t);
+                    }
+                });
     }
 
     public void deleteMemo(Memo memo) {
